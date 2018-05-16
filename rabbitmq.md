@@ -87,7 +87,22 @@ channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "insert");
 channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "update");
 绑定 无法获取
 
- 
+ topic 模式 需要定义
+ 关于绑定键有两种特殊的情况：*（星号）可以代替一个任意标识符 ；#（井号）可以代替零个或多个标识符
+ // 声明exchange
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+        // 发送消息, 指定RoutingKey
+        channel.basicPublish(EXCHANGE_NAME, "item.delete", null, message.getBytes());
+        
+        接收方
+        // 绑定队列到交换机
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "item.update");
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "item.delete");
+   
+   
+   // 绑定队列到交换机. 通配符!
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "item.#"); 
+        可获取
  ```
  
  
