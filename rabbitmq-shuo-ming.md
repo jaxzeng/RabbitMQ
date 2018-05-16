@@ -41,6 +41,32 @@ Maven项目，添加依赖
        </dependency>
    </dependencies>
 ```
+```java
+public class HelloWorld {
+    public static final  String QUEUENANME="hello";
+    private static final String HOST="localhost";
+    private static final String ADMIN="admin";
+    private static final String PWD="admin";
+    public static void main(String []args) throws IOException, TimeoutException {
+        ConnectionFactory connectionFactory=new ConnectionFactory();
+        connectionFactory.setHost(HOST);
+//        connectionFactory.setPassword(ADMIN);
+//        connectionFactory.setPassword(PWD);
+//        connectionFactory.setPort(15672);
+        Connection connection=connectionFactory.newConnection();
+        Channel channel=connection.createChannel();
+        channel.queueDeclare(QUEUENANME,false,false,false,
+        null);
+        String message="HelloWorld";
+        channel.basicPublish("",QUEUENANME,null,message.getBytes());
+        System.out.println("[" + message + "]");
+
+        // 最后，我们关闭channel和连接，释放资源。
+        channel.close();
+        connection.close();
+    }
+
+```
 
 
 
