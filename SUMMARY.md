@@ -1,6 +1,7 @@
 # Summary
 
-* [Introduction](README.md)
+* [JMS规范](README.md)
 * [First Chapter](chapter1.md)
-* [RabbitMq 说明](rabbitmq-shuo-ming.md)
+* [RabbitMQ初步](rabbitmq-shuo-ming.md)
+* [RabbitMQ的几种方式](rabbitmq.md)
 

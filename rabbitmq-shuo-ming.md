@@ -25,7 +25,7 @@ Broker：简单来说就是消息队列服务器实体。
 　　（5）客户端投递消息到exchange
 
 ###HelloWorld 示例
-
+ 
 Maven项目，添加依赖
 ```maven
  <dependencies>
@@ -68,6 +68,35 @@ public class HelloWorld {
 
 ```
 
+接收
+```java
+public class Reciver {
+    public static final  String QUEUENANME="hello";
+    private static final String HOST="localhost";
+
+    public static void main(String []args) throws IOException, TimeoutException {
+        ConnectionFactory connectionFactory=new ConnectionFactory();
+        connectionFactory.setHost(HOST);
+        Connection connection=connectionFactory.newConnection();
+        Channel channel=connection.createChannel();
+        channel.queueDeclare(QUEUENANME,false,false,false,
+                null);
+
+        Consumer consumer= new myConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties,
+                                       byte[] body) throws IOException {
+                String message = new String(body, "UTF-8");
+                System.out.println("ReceiveLogsDirect1 Received '" + envelope.getRoutingKey() + "':'" + message + "'");
+            }
+        };
+        channel.basicConsume(QUEUENANME,true,consumer);
+        // 最后，我们关闭channel和连接，释放资源。
+        channel.close();
+        connection.close();
+    }
+
+```
 
 
 
