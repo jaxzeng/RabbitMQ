@@ -68,6 +68,27 @@
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);
         }
     }
+ ```java
+ Publish/Subscribe 模式只需将队列与 exchange 绑定就ok
+ public static final String QUEUE_NAME = "queuedemo";
+ public static final String QUEUE_NAME1 = "queuedemo1";
+
+ public final static String EXCHANGEDECLARE = "fanoutdemo";
+ channel.queueBind(QUEUE_NAME, EXCHANGEDECLARE, "");
+ channel.queueBind(QUEUE_NAME1, EXCHANGEDECLARE, "");
+
+routing 模式
+发送方
+channel.basicPublish(EXCHANGEDECLARE,"insert",null,message.getBytes());
+
+队列
+channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "insert");
+可获取消息 而
+channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, "update");
+绑定 无法获取
+
+ 
  ```
+ 
  
  
